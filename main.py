@@ -1,7 +1,7 @@
 alphabet = ("abcdefghijklmnopqrstuvwxyz")
 
 user = str(input("Do you want to encrypt (1) or decrypt (2)? "))
-key = int(input("Enter the key the code is going to be using: "))
+shift = int(input("Enter the shift: "))
 
 def caesar_encrypt(str, key):
     str = str.lower()
@@ -10,11 +10,10 @@ def caesar_encrypt(str, key):
         index = alphabet.find(str_list[i])
         if str_list[i] == " ":
             str_list[i] =  " "
-        elif (index+key) <= 26:
-            str_list[i] = alphabet[index+key]
-        else:
-            str_list[i] = alphabet[(index + key) % 26]
-            print("b")
+        elif (index+shift) <= 25:
+            str_list[i] = alphabet[index+shift]
+        elif (index+shift) > 25:
+            str_list[i] = alphabet[(index + shift) % 25]
 
     print(''.join(str_list))
 
@@ -25,15 +24,18 @@ def caesar_decrypt(str, key):
     for i in range(len(str_list)):
         index = alphabet.find(str_list[i])
         if str[i] == " ":
-            str_list = " "
-        else: 
-            str_list[i] = alphabet[(index - key) % 26]
+            str_list[i] = " "
+        elif (index-shift) >= 0:
+            str_list[i] = alphabet[(index - shift)]
+        elif (index-shift) < 0: 
+            str_list[i] = alphabet[(index - shift) % 26]
+    
     print(''.join(str_list))
 
 if user == "1":
     mssg_to_encrypt = input("Enter the message you want to encrypt: ")
-    caesar_encrypt(mssg_to_encrypt, key)
+    caesar_encrypt(mssg_to_encrypt, shift)
 
 elif user == "2":
     mssg_to_decrypt = input("Enter the message you want to decrypt: ")
-    caesar_decrypt(mssg_to_decrypt, key)
+    caesar_decrypt(mssg_to_decrypt, shift)
